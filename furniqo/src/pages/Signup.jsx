@@ -1,7 +1,52 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    const { firstName, lastName, email, password, confirmPassword } = formData;
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        name: `${firstName} ${lastName}`,
+        email,
+        password,
+      });
+
+      console.log("✅ Registration successful:", res.data);
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <div
@@ -28,7 +73,7 @@ const Signup = () => {
           height: "462px",
         }}
       >
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Name Fields */}
           <div className="flex space-x-5">
             <div>
@@ -37,6 +82,9 @@ const Signup = () => {
               </label>
               <input
                 type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 className="mt-1 rounded-md border-gray-300 px-4 py-2 text-[16px]"
                 style={{ width: "259px" }}
                 placeholder="First name"
@@ -49,6 +97,9 @@ const Signup = () => {
               </label>
               <input
                 type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 className="mt-1 rounded-md border-gray-300 px-4 py-2 text-[16px]"
                 style={{ width: "259px" }}
                 placeholder="Last name"
@@ -64,6 +115,9 @@ const Signup = () => {
             </label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1 rounded-md border-gray-300 px-4 py-2 text-[16px]"
               style={{ width: "543px" }}
               placeholder="Enter your email"
@@ -79,6 +133,9 @@ const Signup = () => {
               </label>
               <input
                 type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 className="mt-1 rounded-md border-gray-300 px-4 py-2 text-[16px]"
                 style={{ width: "259px" }}
                 placeholder="Password"
@@ -91,6 +148,9 @@ const Signup = () => {
               </label>
               <input
                 type={showPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 className="mt-1 rounded-md border-gray-300 px-4 py-2 text-[16px]"
                 style={{ width: "259px" }}
                 placeholder="Confirm password"
@@ -114,6 +174,9 @@ const Signup = () => {
             />
             <label htmlFor="showPassword">Show password</label>
           </div>
+
+          {/* Error */}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           {/* Button */}
           <div className="flex justify-center">
