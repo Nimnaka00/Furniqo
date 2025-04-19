@@ -1,11 +1,13 @@
 const Hero = () => {
   return (
     <section
-      className="relative h-screen bg-cover bg-center flex items-center justify-center text-white"
-      style={{ backgroundImage: "url('/assets/main-background.png')" }}
+      className="relative h-[1084px] bg-no-repeat bg-cover bg-center flex items-center justify-center text-white"
+      style={{
+        backgroundImage: "url('/assets/main-background.png')",
+      }}
     >
       {/* Fade effect at the bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-[100px] bg-gradient-to-t from-[#ffffff] to-transparent z-10" />
+      <div className="absolute bottom-0 left-0 w-full h-[80px] bg-gradient-to-t from-[#ffffff] to-transparent z-10" />
 
       {/* Content */}
       <div className="z-20 text-center">
