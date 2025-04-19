@@ -1,7 +1,40 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signin = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", formData);
+
+      // Save token if needed
+      localStorage.setItem("token", res.data.token);
+
+      console.log("✅ Logged in:", res.data);
+      navigate("/"); // or go to dashboard/home
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed");
+    }
+  };
 
   return (
     <div
@@ -22,7 +55,7 @@ const Signin = () => {
 
       {/* Login Form */}
       <div className="max-w-md w-full bg-[#FBFBFB]/50 backdrop-blur-md rounded-xl p-8 shadow-lg z-10 absolute top-[300px]">
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Email */}
           <div>
             <label className="block text-[16px] font-medium text-gray-700">
@@ -30,6 +63,9 @@ const Signin = () => {
             </label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1 w-full rounded-md border-gray-300 px-4 py-2 text-[16px]"
               placeholder="Enter your email"
               required
@@ -43,6 +79,9 @@ const Signin = () => {
             </label>
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               className="mt-1 w-full rounded-md border-gray-300 px-4 py-2 text-[16px]"
               placeholder="Enter your password"
               required
@@ -60,6 +99,9 @@ const Signin = () => {
             />
             <label htmlFor="showPassword">Show password</label>
           </div>
+
+          {/* Error */}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
           {/* Sign In Button */}
           <div className="flex justify-center">
