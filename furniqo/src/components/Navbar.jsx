@@ -26,7 +26,7 @@ const Navbar = () => {
           </div>
         ) : (
           <button
-            onClick={() => window.location.href = '/signin'}
+            onClick={() => window.location.href = '/login'}
             className="text-white bg-primary px-4 py-2 rounded-full hover:bg-orange-500 transition-all"
           >
             Login
