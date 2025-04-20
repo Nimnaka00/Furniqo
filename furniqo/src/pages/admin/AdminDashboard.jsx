@@ -1,4 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { clearTokenCookie } from "../../utils/utils"; // ✅ import cookie utility
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -12,9 +13,14 @@ const AdminDashboard = () => {
     { label: "Design", path: "/admin/designs", icon: "design.png" },
   ];
 
+  // ✅ Logout with confirmation
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (!confirmLogout) return;
+
+    clearTokenCookie();                  // ✅ remove token cookie
+    localStorage.removeItem("user");     // ✅ remove user (if stored)
+    navigate("/login");                  // ✅ go to login page
   };
 
   return (
@@ -29,7 +35,7 @@ const AdminDashboard = () => {
           <h1 className="text-[#B5712D] text-[64px] font-extrabold leading-none">Admin</h1>
           <p className="text-[#0D1B39] text-[24px] font-semibold mt-[-10px]">Dashboard</p>
 
-          {/* Buttons */}
+          {/* Sidebar Nav Buttons */}
           <div className="mt-10 flex flex-col gap-4">
             {navItems.map((item) => (
               <button
