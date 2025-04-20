@@ -34,7 +34,7 @@ const AboutUs = () => {
         <img
           src="/assets/aboutus1.png"
           alt="About Us 1"
-          className="absolute right-0 top-[50px] w-[370px] h-[370x] object-cover rounded-[16px] shadow-md z-10"
+          className="absolute right-0 top-[50px] w-[370px] h-[370x] object-cover rounded-[16px] shadow-xl z-10" 
         />
 
         {/* Top Small Image */}
