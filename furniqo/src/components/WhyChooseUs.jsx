@@ -34,7 +34,7 @@ const WhyChooseUs = () => {
               <h3 className="text-[24px] font-bold text-[#1e1e1e] mb-3">
                 {feature.title}
               </h3>
-              <p className="text-[16px] font-normal text-[#1e1e1e] leading-relaxed">
+              <p className="text-[16px] font-normal text-[#6F6F6F] leading-relaxed">
                 {feature.description}
               </p>
             </div>
