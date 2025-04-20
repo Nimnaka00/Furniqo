@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { setTokenCookie } from "../utils/utils";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -26,11 +27,18 @@ const Signin = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData);
 
-      // Save token if needed
-      localStorage.setItem("token", res.data.token);
+      const { token, user } = res.data;
 
-      console.log("✅ Logged in:", res.data);
-      navigate("/"); // or go to dashboard/home
+      // ✅ Set cookie
+      setTokenCookie(token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // ✅ Redirect based on email
+      if (user.email === "admin.furniqo2025@gmail.com") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
@@ -43,24 +51,18 @@ const Signin = () => {
         backgroundImage: `url('/assets/main-background.png')`,
       }}
     >
-      {/* Logo */}
       <h2 className="absolute top-[30px] left-[100px] text-white text-[28px] font-bold">
         Furniqo
       </h2>
 
-      {/* Title */}
       <h1 className="absolute top-[120px] left-[190px] text-[#B5712D] text-[64px] font-extrabold leading-tight drop-shadow-md">
         Sign In To Your <br /> Account
       </h1>
 
-      {/* Login Form */}
       <div className="max-w-md w-full bg-[#FBFBFB]/50 backdrop-blur-md rounded-xl p-8 shadow-lg z-10 absolute top-[300px]">
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Email */}
           <div>
-            <label className="block text-[16px] font-medium text-gray-700">
-              Email address
-            </label>
+            <label className="block text-[16px] font-medium text-gray-700">Email address</label>
             <input
               type="email"
               name="email"
@@ -72,11 +74,8 @@ const Signin = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
-            <label className="block text-[16px] font-medium text-gray-700">
-              Password
-            </label>
+            <label className="block text-[16px] font-medium text-gray-700">Password</label>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -88,7 +87,6 @@ const Signin = () => {
             />
           </div>
 
-          {/* Show Password */}
           <div className="flex items-center text-[16px]">
             <input
               type="checkbox"
@@ -100,10 +98,8 @@ const Signin = () => {
             <label htmlFor="showPassword">Show password</label>
           </div>
 
-          {/* Error */}
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          {/* Sign In Button */}
           <div className="flex justify-center">
             <button
               type="submit"
@@ -118,7 +114,6 @@ const Signin = () => {
           </div>
         </form>
 
-        {/* Footer */}
         <p className="mt-4 text-center text-[16px] text-gray-700">
           Don’t have an account?{" "}
           <a href="/signup" className="font-medium text-[#0D1B39] underline">
