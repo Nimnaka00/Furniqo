@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setTokenCookie } from "../utils/utils";
+import { toast } from "react-toastify"; // ✅ toastify
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -33,11 +34,13 @@ const Signin = () => {
       setTokenCookie(token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      // ✅ Redirect based on email
+      // ✅ Show welcome toast
       if (user.email === "admin.furniqo2025@gmail.com") {
-        navigate("/admin");
+        toast.success("Welcome back, Admin!");
+        setTimeout(() => navigate("/admin"), 1500);
       } else {
-        navigate("/");
+        toast.success(`Welcome back, ${user.name || "User"}!`);
+        setTimeout(() => navigate("/"), 1500);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
