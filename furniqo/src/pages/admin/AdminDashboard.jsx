@@ -1,5 +1,6 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { clearTokenCookie } from "../../utils/utils"; // ✅ import cookie utility
+import { clearTokenCookie } from "../../utils/utils";
+import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -13,14 +14,19 @@ const AdminDashboard = () => {
     { label: "Design", path: "/admin/designs", icon: "design.png" },
   ];
 
-  // ✅ Logout with confirmation
   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
     if (!confirmLogout) return;
 
-    clearTokenCookie();                  // ✅ remove token cookie
-    localStorage.removeItem("user");     // ✅ remove user (if stored)
-    navigate("/login");                  // ✅ go to login page
+    clearTokenCookie();
+    localStorage.removeItem("user");
+
+    toast.success("✅ You have been logged out!");
+
+    // Slight delay before navigating so toast is visible
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
   };
 
   return (
