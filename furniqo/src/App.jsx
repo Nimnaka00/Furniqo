@@ -22,7 +22,7 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />}>
           <Route index element={<AdminHome />} />
-          <Route path="users" element={<AdminUserManagement />} /> {/* ✅ ADD THIS */}
+          <Route path="users" element={<AdminUserManagement />} />
           <Route path="designs" element={<AdminDesign />} />
         </Route>
       </Routes>
