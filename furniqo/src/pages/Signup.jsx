@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify"; // ✅ Toast
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -34,14 +35,17 @@ const Signup = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("http://localhost:5000/api/auth/register", {
         name: `${firstName} ${lastName}`,
         email,
         password,
       });
 
-      console.log("✅ Registration successful:", res.data);
-      navigate("/login");
+      toast.success("Account created successfully!");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "Something went wrong");
