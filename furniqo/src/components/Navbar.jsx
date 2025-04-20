@@ -43,18 +43,18 @@ const Navbar = () => {
         </h1>
 
         <ul className="hidden md:flex gap-8 text-white font-medium">
-          <li className="cursor-pointer hover:underline">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="cursor-pointer hover:underline">
-            <a href="#shop">Shop</a>
-          </li>
-          <li className="cursor-pointer hover:underline">
-            <a href="#about">About Us</a>
-          </li>
-          <li className="cursor-pointer hover:underline">
-            <a href="#contact">Contact</a>
-          </li>
+            <li className="cursor-pointer hover:underline" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+              Home
+            </li>
+            <li className="cursor-pointer hover:underline" onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: "smooth" })}>
+              Shop
+            </li>
+            <li className="cursor-pointer hover:underline" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: "smooth" })}>
+              About
+            </li>
+            <li className="cursor-pointer hover:underline" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: "smooth" })}>
+              Contact
+            </li>
         </ul>
 
         {isLoggedIn ? (
