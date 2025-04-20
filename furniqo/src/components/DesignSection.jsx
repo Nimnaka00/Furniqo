@@ -20,7 +20,7 @@ const DesignSection = () => {
           style={{
             borderTopRightRadius: "30px",
             borderBottomRightRadius: "30px",
-            boxShadow: "20px 0px 30px rgba(0, 0, 0, 0.2)",
+            boxShadow: "40px 40px 50px rgba(247, 247, 247, 69)",
           }}
         />
       </div>
