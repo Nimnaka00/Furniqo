@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getTokenCookie } from "../utils/utils"; // ✅ get token from cookie
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getTokenCookie(); // ✅ using cookie now
     setIsLoggedIn(!!token);
   }, []);
 
