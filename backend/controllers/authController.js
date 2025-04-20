@@ -2,7 +2,10 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// Register Controller
+// In-memory tracking of active users (email-based)
+let activeUsers = new Set();
+
+// Register User
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -18,6 +21,7 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: email === "admin.furniqo2025@gmail.com" ? "admin" : "user", // auto-admin
     });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -31,6 +35,7 @@ export const registerUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -38,7 +43,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// Login Controller
+// Login User
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -57,6 +62,8 @@ export const loginUser = async (req, res) => {
       expiresIn: "7d",
     });
 
+    activeUsers.add(user.email); // ✅ track active session
+
     res.status(200).json({
       message: "Login successful",
       token,
@@ -64,6 +71,7 @@ export const loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
@@ -71,7 +79,18 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// Get User Profile
+// Logout User (optional)
+export const logoutUser = async (req, res) => {
+  const { email } = req.body;
+
+  if (email) {
+    activeUsers.delete(email);
+  }
+
+  res.json({ message: "User logged out" });
+};
+
+// Get Logged-in User Profile
 export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -82,11 +101,10 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-// Update User Profile
+// Update Logged-in User Profile
 export const updateUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const { name, email, password } = req.body;
@@ -106,9 +124,56 @@ export const updateUserProfile = async (req, res) => {
         id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
+        role: updatedUser.role,
       },
     });
   } catch (error) {
     res.status(500).json({ message: "Update failed", error: error.message });
+  }
+};
+
+// Admin: Get All Users
+export const getAllUsers = async (req, res) => {
+  if (req.user.email !== "admin.furniqo2025@gmail.com") {
+    return res.status(403).json({ message: "Access denied" });
+  }
+
+  try {
+    const users = await User.find().select("-password");
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Fetching users failed", error: error.message });
+  }
+};
+
+// Admin: Delete a User
+export const deleteUser = async (req, res) => {
+  if (req.user.email !== "admin.furniqo2025@gmail.com") {
+    return res.status(403).json({ message: "Access denied" });
+  }
+
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Delete failed", error: error.message });
+  }
+};
+
+// Admin: Dashboard Stats
+export const getDashboardStats = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const activeMembers = activeUsers.size;
+    const totalDesigns = 48; // Replace with dynamic count when ready
+
+    res.json({
+      totalUsers,
+      activeMembers,
+      totalDesigns,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to load dashboard stats" });
   }
 };
