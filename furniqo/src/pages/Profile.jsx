@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getTokenCookie, clearTokenCookie } from "../utils/utils"; // ✅ cookie helpers
 
 const Profile = () => {
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({ name: "", email: "", password: "" });
 
+  // Fetch user profile
   const fetchProfile = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/auth/profile", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${getTokenCookie()}`, // ✅ using cookie
         },
       });
       setUserData({ ...res.data, password: "********" });
@@ -26,7 +28,8 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    clearTokenCookie(); // ✅ clear cookie
+    localStorage.removeItem("user");
     navigate("/");
   };
 
@@ -34,7 +37,7 @@ const Profile = () => {
     try {
       await axios.put("http://localhost:5000/api/auth/update", userData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${getTokenCookie()}`, // ✅ using cookie
         },
       });
       setEditMode(false);
