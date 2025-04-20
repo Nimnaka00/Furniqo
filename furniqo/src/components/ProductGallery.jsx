@@ -9,7 +9,7 @@ const ProductGallery = () => {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-dark mb-8">Furniture</h2>
+        <h2 className=" md:text-4xl text-[42px] text-[#1e1e1e] font-normal mb-8">Furniture</h2>
 
         {/* Category Bar */}
         <div className="flex justify-center gap-6 mb-10 flex-wrap">
