@@ -5,7 +5,7 @@ const ContactUs = () => {
       className="relative w-full h-[800px] bg-white px-16 flex items-center justify-between"
     >
       {/* Left - Image Collage */}
-      <div className="absolute left-0 relative w-[560px] h-[500px]">
+      <div className="relative w-[560px] h-[500px]">
         {/* Middle image in the back */}
         <img
           src="/assets/contactus1.png"
