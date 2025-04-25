@@ -28,9 +28,7 @@ const ProductGallery = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const filteredProducts = products.filter(
-    (product) => product.category === activeCategory
-  );
+  const filteredProducts = products.filter((product) => product.category === activeCategory);
 
   const openPopup = (product) => {
     setSelectedProduct(product);
@@ -57,25 +55,12 @@ const ProductGallery = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: false, amount: 0.2 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.6 }}
     >
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <motion.h2
-          className="text-[42px] font-medium text-[#1e1e1e] mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          Furniture
-        </motion.h2>
+        <h2 className="text-[42px] font-medium text-[#1e1e1e] mb-8">Furniture</h2>
 
-        {/* Category Bar */}
-        <motion.div
-          className="flex justify-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="flex justify-center mb-12">
           <div className="flex bg-[#f3f3f3] rounded-full px-2 py-1 gap-2">
             {categories.map((cat) => (
               <motion.button
@@ -93,27 +78,17 @@ const ProductGallery = () => {
               </motion.button>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Products Grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
-        >
-          {filteredProducts.map((product, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          {filteredProducts.map((product) => (
             <motion.div
               key={product.id}
-              variants={{
-                hidden: { opacity: 0, y: 40 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.4, delay: index * 0.07 },
-                },
-              }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
               whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.4, delay: product.id * 0.02 }}
               className="bg-white border rounded-2xl shadow transition p-4 cursor-pointer"
               onClick={() => openPopup(product)}
             >
@@ -127,7 +102,7 @@ const ProductGallery = () => {
               <p className="text-[#b5712d] font-bold mt-2">{product.price}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Product Popup */}
