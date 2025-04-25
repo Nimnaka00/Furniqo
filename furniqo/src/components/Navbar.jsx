@@ -5,13 +5,15 @@ import { getTokenCookie } from "../utils/utils";
 
 const SunIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M6.05 6.05L4.636 4.636m0 14.728l1.414-1.414M18.364 5.636l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M6.05 6.05L4.636 4.636m0 14.728l1.414-1.414M18.364 5.636l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
   </svg>
 );
 
 const MoonIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+      d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
   </svg>
 );
 
@@ -22,7 +24,6 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState("Home");
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [blurIntensity, setBlurIntensity] = useState("blur-md");
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -52,8 +53,6 @@ const Navbar = () => {
           }
         }
       }
-
-      setBlurIntensity(currentScrollY > 50 ? "blur-lg" : "blur-md");
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -73,9 +72,9 @@ const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className={`fixed top-0 w-full z-50 ${blurIntensity} ${
-              darkMode ? "bg-black/80 text-white" : "bg-white/10 text-white"
-            } border-b border-white/10 shadow-md`}
+            className={`fixed top-0 w-full z-50 backdrop-blur-sm transition-all duration-300
+              ${darkMode ? "bg-black/30 text-white" : "bg-white/90 text-[#0d1b39]"}
+              border-b border-white/10 shadow-md`}
           >
             <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
               <motion.h1
@@ -91,7 +90,9 @@ const Navbar = () => {
                   <li
                     key={label}
                     className={`cursor-pointer transition-colors duration-200 ${
-                      activeSection === label ? "text-[#b5712d] underline underline-offset-4" : "hover:text-[#b5712d]"
+                      activeSection === label
+                        ? "text-[#b5712d] underline underline-offset-4"
+                        : "hover:text-[#b5712d]"
                     }`}
                     onClick={() => {
                       if (label === "Home") {
@@ -107,6 +108,7 @@ const Navbar = () => {
               </ul>
 
               <div className="flex items-center gap-4">
+                {/* Theme Switch */}
                 <button
                   onClick={() => setDarkMode(!darkMode)}
                   className="text-sm px-3 py-1 border border-white/50 rounded-full hover:bg-white/10 transition flex items-center gap-2"
