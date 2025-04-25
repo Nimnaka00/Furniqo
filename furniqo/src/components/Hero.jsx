@@ -1,10 +1,20 @@
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
 const Hero = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.2,
+  });
+
   return (
-    <section
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="relative h-[1084px] bg-no-repeat bg-cover bg-center flex items-center justify-center"
-      style={{
-        backgroundImage: "url('/assets/main-background.png')",
-      }}
+      style={{ backgroundImage: "url('/assets/main-background.png')" }}
     >
       {/* Bottom Fade Effect */}
       <div className="absolute bottom-0 left-0 w-full h-[80px] bg-gradient-to-t from-[#ffffff] to-transparent z-10" />
@@ -12,7 +22,7 @@ const Hero = () => {
       {/* Content */}
       <div className="z-20 text-center">
         {/* Title */}
-        <h1 className="absolute top-[100px] left-[250px]  text-[80px] font-extrabold leading-tight text-[#b5712d] ">
+        <h1 className="absolute top-[100px] left-[250px] text-[80px] font-extrabold leading-tight text-[#b5712d]">
           Make Your Interior More <br /> Minimalistic & Modern
         </h1>
 
@@ -46,7 +56,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
