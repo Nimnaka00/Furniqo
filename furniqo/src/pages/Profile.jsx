@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { getTokenCookie, clearTokenCookie } from "../utils/utils"; // ✅ cookie helpers
+import { getTokenCookie, clearTokenCookie } from "../utils/utils";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [userData, setUserData] = useState({ name: "", email: "", password: "" });
 
-  // Fetch user profile
   const fetchProfile = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/auth/profile", {
         headers: {
-          Authorization: `Bearer ${getTokenCookie()}`, // ✅ using cookie
+          Authorization: `Bearer ${getTokenCookie()}`,
         },
       });
       setUserData({ ...res.data, password: "********" });
@@ -28,7 +27,7 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    clearTokenCookie(); // ✅ clear cookie
+    clearTokenCookie();
     localStorage.removeItem("user");
     navigate("/");
   };
@@ -37,7 +36,7 @@ const Profile = () => {
     try {
       await axios.put("http://localhost:5000/api/auth/update", userData, {
         headers: {
-          Authorization: `Bearer ${getTokenCookie()}`, // ✅ using cookie
+          Authorization: `Bearer ${getTokenCookie()}`,
         },
       });
       setEditMode(false);
@@ -53,28 +52,43 @@ const Profile = () => {
 
   return (
     <div
-      className="w-full h-screen flex"
+      className="flex min-h-screen bg-cover bg-center"
       style={{ backgroundImage: "url('/assets/background.png')" }}
     >
-      {/* Sidebar */}
-      <div className="w-[300px] bg-white rounded-r-[50px] flex flex-col justify-between py-10 px-6 shadow-lg">
+      {/* Sidebar Styled Like Admin */}
+      <div className="w-[375px] h-screen bg-white flex flex-col justify-between p-8 rounded-tr-[60px] shadow-md">
         <div>
-          <div className="flex items-center gap-3">
-            <img src="/assets/User.png" alt="User" className="w-10 h-10" />
-            <span className="text-gray-800 font-semibold text-lg">{userData.name}</span>
+          <h1 className="text-[#B5712D] text-[64px] font-extrabold leading-none">User</h1>
+          <p className="text-[#0D1B39] text-[24px] font-semibold mt-[-10px] ">Dashboard</p>
+
+          {/* 👤 Display Name Under Title */}
+          <div className="mt-10 mb-6">
+            <span className="text-gray-800 font-semibold text-lg block">{userData.name}</span>
+            <div className="w-10 h-[2px] bg-[#B5712D] mt-1 rounded"></div>
           </div>
-          <div className="mt-10">
-            <button className="w-full flex items-center gap-2 text-white font-medium text-lg bg-[#B5712D] px-4 py-3 rounded-md">
-              👤 Personal Data
+
+          {/* Sidebar Button */}
+          <div className="mt-4 flex flex-col gap-4">
+            <button
+              className="w-[323px] h-[62px] flex items-center gap-4 px-6 rounded-lg border text-[24px] font-medium text-white bg-[#B5712D] border-[#B5712D]"
+            >
+              <img
+                src="/assets/User.png"
+                alt="Profile"
+                className="w-6 h-6 rounded-full"
+              />
+              Personal Data
             </button>
           </div>
         </div>
 
+        {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className="w-fit bg-[#0D1B39] text-white px-6 py-2 rounded-full flex items-center gap-2 self-start"
+          className="w-[160px] h-[45px] flex items-center justify-center gap-2 bg-[#0D1B39] hover:bg-red-600 text-white text-[24px] font-medium rounded-full"
         >
-          ↩ Logout
+          <img src="/assets/icon/logout.png" alt="Logout" className="w-5 h-5" />
+          Logout
         </button>
       </div>
 
@@ -84,7 +98,6 @@ const Profile = () => {
           <h2 className="text-lg font-semibold mb-6">Identification</h2>
 
           <div className="grid grid-cols-2 gap-6">
-            {/* Name */}
             <input
               type="text"
               name="name"
@@ -94,7 +107,6 @@ const Profile = () => {
               className="w-full bg-white text-black px-4 py-3 rounded-md"
             />
 
-            {/* Email */}
             <input
               type="email"
               name="email"
@@ -104,7 +116,6 @@ const Profile = () => {
               className="w-full bg-white text-black px-4 py-3 rounded-md"
             />
 
-            {/* Password */}
             <input
               type={editMode ? "text" : "password"}
               name="password"
@@ -115,7 +126,6 @@ const Profile = () => {
             />
           </div>
 
-          {/* Buttons */}
           <div className="flex justify-end gap-4 mt-8">
             <button
               onClick={() => setEditMode(true)}
