@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>furniqo-3D</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/example.css"  rel="stylesheet">
+
+    <style>
+      :root {
+        --accent:        #b5712d;
+        --text-dark:     #a85807;
+        --light-gray:    #fafafa;
+        --border-gray:   #ddd;
+        --nav-radius:    10px;
+        --sidebar-radius:80px;
+      }
+
+      body {
+        margin: 0;
+        background: url('images/bg-login.png') repeat-y center center;
+        background-size: auto 100%;
+        font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      }
+
+      .sidebar {
+        background:
+          url('bg-login.png') repeat-y center center,
+          rgba(255,255,255,0.9);
+        background-size: auto 100%, auto;
+        border-top-right-radius: var(--sidebar-radius);
+        border-bottom-right-radius: var(--sidebar-radius);
+        box-shadow: 2px 0 12px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        height: 100vh;
+        overflow-y: auto;
+        padding-top: 95px;
+      }
+
+      .sidebar::after {
+        content: " \f08b Logout";
+        display: inline-block;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.5rem 1rem;
+        background: var(--text-dark);
+        color: #fff;
+        border-radius: var(--nav-radius);
+        font-family: "Glyphicons Halflings";
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.3s;
+        white-space: nowrap;
+      }
+
+      .sidebar::after:hover {
+        background: var(--accent);
+      }
+
+      .nav-sidebar {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem;
+      }
+
+      .nav-sidebar li {
+        margin-bottom: 0.75rem;
+      }
+
+      .nav-sidebar li a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        background: #fff;
+        color: var(--text-dark);
+        border: 1px solid var(--border-gray);
+        border-radius: var(--nav-radius);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .nav-sidebar li a:hover,
+      .nav-sidebar li.active a {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      }
+
+      .nav-sidebar li a:active {
+        transform: scale(0.98);
+      }
+
+      .nav-sidebar li a .glyphicon {
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      .sidebar hr {
+        border-color: #eee;
+      }
+
+      #fixed-label {
+      color: white;
+      margin-top: -90px;
+      display: inline-block;
+      }
+    </style>
+
+    <script src="js/three.min.js"></script>
+    <script src="js/blueprint3d.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/items.js"></script>
+    <script src="js/example.js"></script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row main-row">
+        <!-- Sidebar -->
+        <div class="col-xs-3 sidebar">
+          <ul class="nav nav-sidebar">
+            <li id="home_tab">
+              <a href="http://localhost:5173/">
+                <span class="glyphicon glyphicon-home"></span>
+                Home
+                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+              </a>
+            </li>
+            <li id="floorplan_tab"><a href="#">
+              <span class="glyphicon glyphicon-th-list"></span>
+              Edit Floorplan
+              <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            </a></li>
+            <li id="design_tab"><a href="#">
+              <span class="glyphicon glyphicon-cog"></span>
+              Design
+              <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            </a></li>
+            <li id="items_tab"><a href="#">
+              <span class="glyphicon glyphicon-plus"></span>
+              Add Items
+              <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            </a></li>
+          </ul>
+          <hr />
+
+          <!-- Context Menu -->
+          <div id="context-menu" style="margin-top: -30px;">
+            <div style="margin: 0 20px">
+              <span id="context-menu-name" class="lead"></span>
+              <br /><br />
+              <button class="btn btn-block btn-danger" id="context-menu-delete">
+                <span class="glyphicon glyphicon-trash"></span> 
+                Delete Item
+              </button>
+              <br />
+              <div class="panel panel-default">
+                <div class="panel-heading">Adjust Size</div>
+                <div class="panel-body" style="color: #333333">
+                  <div class="form form-horizontal">
+                    <div class="form-group">
+                      <label class="col-sm-5 control-label">Width</label>
+                      <div class="col-sm-6">
+                        <input type="number" class="form-control" id="item-width">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-5 control-label">Depth</label>
+                      <div class="col-sm-6">
+                        <input type="number" class="form-control" id="item-depth">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-5 control-label">Height</label>
+                      <div class="col-sm-6">
+                        <input type="number" class="form-control" id="item-height">
+                      </div>
+                    </div>
+                  </div>
+                  <small><span class="text-muted">Measurements in inches.</span></small>
+                </div>
+              </div>
+              <label id="fixed-label"><input type="checkbox" id="fixed" /> Lock in place</label>
+              <br /><br />
+            </div>
+          </div>
+
+          <!-- Floor Textures -->
+          <div id="floorTexturesDiv" style="display:none; padding: 0 20px">
+            <div class="panel panel-default">
+              <div class="panel-heading">Adjust Floor</div>
+              <div class="panel-body" style="color: #333333">
+                <div class="col-sm-6" style="padding: 3px">
+                  <a href="#" class="thumbnail texture-select-thumbnail"
+                     texture-url="rooms/textures/light_fine_wood.jpg"
+                     texture-stretch="false"
+                     texture-scale="300">
+                    <img alt="Thumbnail light fine wood"
+                         src="rooms/thumbnails/thumbnail_light_fine_wood.jpg" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wall Textures -->
+          <div id="wallTextures" style="display:none; padding: 0 20px">
+            <div class="panel panel-default">
+              <div class="panel-heading">Adjust Wall</div>
+              <div class="panel-body" style="color: #333333">
+                <div class="col-sm-6" style="padding: 3px">
+                  <a href="#" class="thumbnail texture-select-thumbnail"
+                     texture-url="rooms/textures/marbletiles.jpg"
+                     texture-stretch="false"
+                     texture-scale="300">
+                    <img alt="Thumbnail marbletiles"
+                         src="rooms/thumbnails/thumbnail_marbletiles.jpg" />
+                  </a>
+                </div>
+                <div class="col-sm-6" style="padding: 3px">
+                  <a href="#" class="thumbnail texture-select-thumbnail"
+                     texture-url="rooms/textures/wallmap_yellow.png"
+                     texture-stretch="true"
+                     texture-scale="">
+                    <img alt="Thumbnail wallmap yellow"
+                         src="rooms/thumbnails/thumbnail_wallmap_yellow.png" />
+                  </a>
+                </div>
+                <div class="col-sm-6" style="padding: 3px">
+                  <a href="#" class="thumbnail texture-select-thumbnail"
+                     texture-url="rooms/textures/light_brick.jpg"
+                     texture-stretch="false"
+                     texture-scale="100">
+                    <img alt="Thumbnail light brick"
+                         src="rooms/thumbnails/thumbnail_light_brick.jpg" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-xs-9 main">
+          <!-- 3D Viewer -->
+          <div id="viewer">
+            <div id="main-controls">
+              <a href="#" class="btn btn-default btn-sm" id="new">New Plan</a>
+              <a href="#" class="btn btn-default btn-sm" id="saveFile">Save Plan</a>
+              <a class="btn btn-sm btn-default btn-file">
+                <input type="file" class="hidden-input" id="loadFile">
+                Load Plan
+              </a>
+            </div>
+            <div id="camera-controls">
+              <a href="#" class="btn btn-default bottom" id="zoom-out"><span class="glyphicon glyphicon-zoom-out"></span></a>
+              <a href="#" class="btn btn-default bottom" id="reset-view"><span class="glyphicon glyphicon-home"></span></a>
+              <a href="#" class="btn btn-default bottom" id="zoom-in"><span class="glyphicon glyphicon-zoom-in"></span></a>
+              <span>&nbsp;</span>
+              <a class="btn btn-default bottom" href="#" id="move-left"><span class="glyphicon glyphicon-arrow-left"></span></a>
+              <span class="btn-group-vertical">
+                <a class="btn btn-default" href="#" id="move-up"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                <a class="btn btn-default" href="#" id="move-down"><span class="glyphicon glyphicon-arrow-down"></span></a>
+              </span>
+              <a class="btn btn-default bottom" href="#" id="move-right"><span class="glyphicon glyphicon-arrow-right"></span></a>
+            </div>
+            <div id="loading-modal"><h1>Loading...</h1></div>
+          </div>
+
+          <!-- Floorplanner -->
+          <div id="floorplanner">
+            <canvas id="floorplanner-canvas"></canvas>
+            <div id="floorplanner-controls">
+              <button id="move" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-move"></span> Move Walls</button>
+              <button id="draw" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span> Draw Walls</button>
+              <button id="delete" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-remove"></span> Delete Walls</button>
+              <span class="pull-right">
+                <button class="btn btn-primary btn-sm" id="update-floorplan">Done &raquo;</button>
+              </span>
+            </div>
+            <div id="draw-walls-hint">Press the "Esc" key to stop drawing walls</div>
+          </div>
+
+          <!-- Add Items -->
+          <div id="add-items">
+            <div class="row" id="items-wrapper">
+              <!-- Items will be added here dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
