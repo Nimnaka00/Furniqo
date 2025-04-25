@@ -52,8 +52,9 @@ const ProductGallery = () => {
               key={product.id}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.4, delay: product.id * 0.03 }}
-              className="bg-white border rounded-2xl shadow hover:shadow-lg transition p-4"
+              className="bg-white border rounded-2xl shadow transition p-4 cursor-pointer"
             >
               <img
                 src={product.image}
