@@ -37,17 +37,20 @@ const Navbar = () => {
       setShowNavbar(currentScrollY < lastScrollY);
       setLastScrollY(currentScrollY);
 
+      // Scroll progress bar
       const winScroll = document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
       setScrollProgress(scrolled);
 
+      // Section detection based on middle of the screen
       const sections = ["Home", "Shop", "About", "Contact"];
       for (let section of sections) {
         const el = document.getElementById(section.toLowerCase());
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
+          const middle = window.innerHeight / 2;
+          if (rect.top <= middle && rect.bottom >= middle) {
             setActiveSection(section);
             break;
           }
@@ -73,7 +76,7 @@ const Navbar = () => {
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.4 }}
             className={`fixed top-0 w-full z-50 backdrop-blur-sm transition-all duration-300
-              ${darkMode ? "bg-black/1 text-white" : "bg-[#D6D6D6]/50 text-[#0d1b39]"}
+              ${darkMode ? "bg-black/0 text-white" : "bg-[#D6D6D6]/90 text-[#0d1b39]"}
               border-b border-white/10 shadow-md`}
           >
             <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
@@ -85,15 +88,11 @@ const Navbar = () => {
                 <Link to="/">Furniqo</Link>
               </motion.h1>
 
-              <ul className="hidden md:flex gap-8 font-medium">
+              <ul className="hidden md:flex gap-8 font-medium relative">
                 {["Home", "Shop", "About", "Contact"].map((label) => (
-                  <li
+                  <motion.li
                     key={label}
-                    className={`cursor-pointer transition-colors duration-200 ${
-                      activeSection === label
-                        ? "text-[#b5712d] underline underline-offset-4"
-                        : "hover:text-[#b5712d]"
-                    }`}
+                    className="relative cursor-pointer px-1"
                     onClick={() => {
                       setActiveSection(label);
                       if (label === "Home") {
@@ -104,13 +103,27 @@ const Navbar = () => {
                       }
                     }}
                   >
-                    {label}
-                  </li>
+                    <span
+                      className={`transition-colors duration-200 ${
+                        activeSection === label
+                          ? "text-[#b5712d]"
+                          : "hover:text-[#b5712d]"
+                      }`}
+                    >
+                      {label}
+                    </span>
+                    {activeSection === label && (
+                      <motion.div
+                        layoutId="underline"
+                        className="absolute left-0 -bottom-1 h-[2px] w-full bg-[#b5712d] rounded"
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      />
+                    )}
+                  </motion.li>
                 ))}
               </ul>
 
               <div className="flex items-center gap-4">
-                {/* Theme Switch */}
                 <button
                   onClick={() => setDarkMode(!darkMode)}
                   className="text-sm px-3 py-1 border border-white/50 rounded-full hover:bg-white/10 transition flex items-center gap-2"
