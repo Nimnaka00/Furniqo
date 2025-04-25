@@ -73,7 +73,7 @@ const Navbar = () => {
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.4 }}
             className={`fixed top-0 w-full z-50 backdrop-blur-sm transition-all duration-300
-              ${darkMode ? "bg-black/30 text-white" : "bg-white/90 text-[#0d1b39]"}
+              ${darkMode ? "bg-black/1 text-white" : "bg-[#D6D6D6]/50 text-[#0d1b39]"}
               border-b border-white/10 shadow-md`}
           >
             <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
@@ -95,10 +95,12 @@ const Navbar = () => {
                         : "hover:text-[#b5712d]"
                     }`}
                     onClick={() => {
+                      setActiveSection(label);
                       if (label === "Home") {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       } else {
-                        document.getElementById(label.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+                        const el = document.getElementById(label.toLowerCase());
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
                       }
                     }}
                   >
@@ -135,7 +137,7 @@ const Navbar = () => {
                   >
                     <Link
                       to="/login"
-                      className="border border-white px-4 py-2 rounded-full hover:bg-white hover:text-[#0D1B39] transition-all"
+                      className="border border-[#1e1e1e] px-4 py-2 rounded-full hover:bg-white hover:text-[#0D1B39] transition-all"
                     >
                       Login
                     </Link>
