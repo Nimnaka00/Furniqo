@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const categories = ["Chairs", "Tables", "Dressers", "Lamps", "Beds", "Sofas"];
 
@@ -28,7 +28,9 @@ const ProductGallery = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const filteredProducts = products.filter((product) => product.category === activeCategory);
+  const filteredProducts = products.filter(
+    (product) => product.category === activeCategory
+  );
 
   const openPopup = (product) => {
     setSelectedProduct(product);
@@ -40,6 +42,14 @@ const ProductGallery = () => {
     setSelectedProduct(null);
   };
 
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") closePopup();
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, []);
+
   return (
     <section className="py-20 bg-[#f9f9f9]" id="shop">
       <div className="max-w-6xl mx-auto px-6 text-center">
@@ -48,13 +58,19 @@ const ProductGallery = () => {
         <div className="flex justify-center mb-12">
           <div className="flex bg-[#f3f3f3] rounded-full px-2 py-1 gap-2">
             {categories.map((cat) => (
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`capitalize px-5 py-2 rounded-full text-[14px] font-medium transition-all duration-200 ${activeCategory === cat ? "bg-white shadow-sm text-[#1e1e1e]" : "text-[#6F6F6F] hover:text-[#1e1e1e]"}`}
+                className={`capitalize px-5 py-2 rounded-full text-[14px] font-medium transition-all duration-200 ${
+                  activeCategory === cat
+                    ? "bg-white shadow text-[#1e1e1e]"
+                    : "text-[#6F6F6F] hover:text-[#1e1e1e]"
+                }`}
               >
                 {cat}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -84,29 +100,42 @@ const ProductGallery = () => {
         </div>
       </div>
 
-      {/* Popup */}
-      {showPopup && selectedProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-left relative">
-            <button
-              className="absolute top-2 right-3 text-gray-500 hover:text-red-500 text-xl"
-              onClick={closePopup}
+      {/* Product Popup */}
+      <AnimatePresence>
+        {showPopup && selectedProduct && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white p-8 rounded-lg shadow-lg max-w-md text-left relative"
             >
-              &times;
-            </button>
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              className="w-full h-60 object-cover rounded-md mb-4"
-            />
-            <h3 className="text-xl font-bold text-[#1e1e1e] mb-2">
-              {selectedProduct.name}
-            </h3>
-            <p className="text-sm text-[#6F6F6F] mb-2">{selectedProduct.category}</p>
-            <p className="text-[#b5712d] font-bold">{selectedProduct.price}</p>
-          </div>
-        </div>
-      )}
+              <button
+                className="absolute top-2 right-3 text-gray-500 hover:text-red-500 text-xl"
+                onClick={closePopup}
+              >
+                &times;
+              </button>
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="w-full h-60 object-cover rounded-md mb-4"
+              />
+              <h3 className="text-xl font-bold text-[#1e1e1e] mb-2">
+                {selectedProduct.name}
+              </h3>
+              <p className="text-sm text-[#6F6F6F] mb-2">{selectedProduct.category}</p>
+              <p className="text-[#b5712d] font-bold">{selectedProduct.price}</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
