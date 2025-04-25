@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
-import { getTokenCookie } from "../../utils/utils"; // ✅ import cookie helper
+import { getTokenCookie } from "../../utils/utils";
+import { motion } from "framer-motion";
 
 const AdminUserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +12,7 @@ const AdminUserManagement = () => {
     try {
       const res = await axios.get("http://localhost:5000/api/auth/users", {
         headers: {
-          Authorization: `Bearer ${getTokenCookie()}`, // ✅ use token from cookie
+          Authorization: `Bearer ${getTokenCookie()}`,
         },
       });
       setUsers(res.data);
@@ -29,7 +30,7 @@ const AdminUserManagement = () => {
     try {
       await axios.delete(`http://localhost:5000/api/auth/users/${id}`, {
         headers: {
-          Authorization: `Bearer ${getTokenCookie()}`, // ✅ also use cookie token here
+          Authorization: `Bearer ${getTokenCookie()}`,
         },
       });
 
@@ -45,14 +46,33 @@ const AdminUserManagement = () => {
 
   return (
     <div className="text-white">
-      <h1 className="text-[48px] font-extrabold text-[#B5712D] mb-2">
+      {/* Animated Heading */}
+      <motion.h1
+        className="text-[48px] font-extrabold text-[#B5712D] mb-2"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         Manage Users and Accounts
-      </h1>
-      <p className="text-[24px] font-normal mb-8">
-        View, edit, or remove registered users to keep the platform organized.
-      </p>
+      </motion.h1>
 
-      <div className="bg-white/60 backdrop-blur-md rounded-xl p-6 w-full max-w-4xl shadow-lg">
+      <motion.p
+        className="text-[24px] font-normal mb-8"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        View, edit, or remove registered users to keep the platform organized.
+      </motion.p>
+
+      {/* Table Wrapper Animation */}
+      <motion.div
+        className="bg-white/60 backdrop-blur-md rounded-xl p-6 w-full max-w-4xl shadow-lg"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: false }}
+        transition={{ duration: 0.5 }}
+      >
         <h2 className="text-center text-lg text-[#0D1B39] font-semibold mb-4">
           Users
         </h2>
@@ -72,26 +92,34 @@ const AdminUserManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user._id} className="border-b border-gray-200">
+              {users.map((user, i) => (
+                <motion.tr
+                  key={user._id}
+                  className="border-b border-gray-200"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                >
                   <td className="py-2">{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role || "user"}</td>
                   <td className="text-center">
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.2 }}
                       onClick={() => handleDelete(user._id)}
                       className="text-red-600 hover:text-red-800"
                       title="Delete user"
                     >
                       <FaTrash />
-                    </button>
+                    </motion.button>
                   </td>
-                </tr>
+                </motion.tr>
               ))}
             </tbody>
           </table>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };
