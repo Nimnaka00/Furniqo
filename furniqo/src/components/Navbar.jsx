@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FiUser } from "react-icons/fi";
 import { getTokenCookie } from "../utils/utils";
 
 const SunIcon = () => (
@@ -37,13 +38,11 @@ const Navbar = () => {
       setShowNavbar(currentScrollY < lastScrollY);
       setLastScrollY(currentScrollY);
 
-      // Scroll progress bar
       const winScroll = document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
       setScrollProgress(scrolled);
 
-      // Section detection based on middle of the screen
       const sections = ["Home", "Shop", "About", "Contact"];
       for (let section of sections) {
         const el = document.getElementById(section.toLowerCase());
@@ -132,16 +131,16 @@ const Navbar = () => {
                 </button>
 
                 {isLoggedIn ? (
-                  <motion.img
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: 0.2 }}
-                    src="/assets/User.png"
-                    alt="User Profile"
                     whileHover={{ scale: 1.1 }}
-                    className="w-10 h-10 rounded-full cursor-pointer border-2 border-white"
                     onClick={handleProfileClick}
-                  />
+                    className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-[#b5712d] text-white border-2 border-white shadow-md"
+                  >
+                    <FiUser className="text-xl" />
+                  </motion.div>
                 ) : (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
