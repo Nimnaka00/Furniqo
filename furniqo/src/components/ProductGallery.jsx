@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const categories = ["Chairs", "Tables", "Dressers", "Lamps", "Beds", "Sofas"];
 
@@ -25,7 +26,22 @@ const products = [
 
 const ProductGallery = () => {
   const [activeCategory, setActiveCategory] = useState("Chairs");
-  const filteredProducts = products.filter((product) => product.category === activeCategory);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const filteredProducts = products.filter(
+    (product) => product.category === activeCategory
+  );
+
+  const openPopup = (product) => {
+    setSelectedProduct(product);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setSelectedProduct(null);
+  };
 
   return (
     <section className="py-20 bg-[#f9f9f9]" id="shop">
@@ -47,27 +63,56 @@ const ProductGallery = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {filteredProducts.map((product) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.4, delay: product.id * 0.03 }}
-              className="bg-white border rounded-2xl shadow transition p-4 cursor-pointer"
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-48 object-cover mb-4 rounded-xl"
-              />
-              <p className="text-sm text-[#6F6F6F]">{product.category}</p>
-              <h3 className="text-lg font-semibold text-[#1e1e1e] mt-1">{product.name}</h3>
-              <p className="text-[#b5712d] font-bold mt-2">{product.price}</p>
-            </motion.div>
-          ))}
+          {filteredProducts.map((product) => {
+            const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+            return (
+              <motion.div
+                key={product.id}
+                ref={ref}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.4, delay: product.id * 0.03 }}
+                className="bg-white border rounded-2xl shadow transition p-4 cursor-pointer"
+                onClick={() => openPopup(product)}
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover mb-4 rounded-xl"
+                />
+                <p className="text-sm text-[#6F6F6F]">{product.category}</p>
+                <h3 className="text-lg font-semibold text-[#1e1e1e] mt-1">{product.name}</h3>
+                <p className="text-[#b5712d] font-bold mt-2">{product.price}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
+
+      {/* Popup */}
+      {showPopup && selectedProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-left relative">
+            <button
+              className="absolute top-2 right-3 text-gray-500 hover:text-red-500 text-xl"
+              onClick={closePopup}
+            >
+              &times;
+            </button>
+            <img
+              src={selectedProduct.image}
+              alt={selectedProduct.name}
+              className="w-full h-60 object-cover rounded-md mb-4"
+            />
+            <h3 className="text-xl font-bold text-[#1e1e1e] mb-2">
+              {selectedProduct.name}
+            </h3>
+            <p className="text-sm text-[#6F6F6F] mb-2">{selectedProduct.category}</p>
+            <p className="text-[#b5712d] font-bold">{selectedProduct.price}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
