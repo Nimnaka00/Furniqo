@@ -3,11 +3,27 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getTokenCookie } from "../utils/utils";
 
+const SunIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M6.05 6.05L4.636 4.636m0 14.728l1.414-1.414M18.364 5.636l-1.414 1.414M12 8a4 4 0 100 8 4 4 0 000-8z" />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+  </svg>
+);
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState("Home");
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [blurIntensity, setBlurIntensity] = useState("blur-md");
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const token = getTokenCookie();
@@ -16,12 +32,28 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        setShowNavbar(false);
-      } else {
-        setShowNavbar(true);
+      const currentScrollY = window.scrollY;
+      setShowNavbar(currentScrollY < lastScrollY);
+      setLastScrollY(currentScrollY);
+
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      setScrollProgress(scrolled);
+
+      const sections = ["Home", "Shop", "About", "Contact"];
+      for (let section of sections) {
+        const el = document.getElementById(section.toLowerCase());
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(section);
+            break;
+          }
+        }
       }
-      setLastScrollY(window.scrollY);
+
+      setBlurIntensity(currentScrollY > 50 ? "blur-lg" : "blur-md");
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -33,61 +65,92 @@ const Navbar = () => {
   };
 
   return (
-    <AnimatePresence>
-      {showNavbar && (
-        <motion.nav
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="fixed top-0 w-full z-50 backdrop-blur-md bg-white/10 border-b border-white/10 shadow-md"
-        >
-          <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
-            <h1 className="text-2xl font-bold text-white cursor-pointer tracking-wide">
-              <Link to="/">Furniqo</Link>
-            </h1>
-
-            <ul className="hidden md:flex gap-8 text-white font-medium">
-              {["Home", "Shop", "About", "Contact"].map((label) => (
-                <li
-                  key={label}
-                  className="cursor-pointer hover:text-[#b5712d] transition-colors duration-200"
-                  onClick={() => {
-                    if (label === "Home") {
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    } else {
-                      document
-                        .getElementById(label.toLowerCase())
-                        ?.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }}
-                >
-                  {label}
-                </li>
-              ))}
-            </ul>
-
-            {isLoggedIn ? (
-              <motion.img
-                src="/assets/User.png"
-                alt="User Profile"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="w-10 h-10 rounded-full cursor-pointer border-2 border-white"
-                onClick={handleProfileClick}
-              />
-            ) : (
-              <Link
-                to="/login"
-                className="text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-[#0D1B39] transition-all"
+    <>
+      <AnimatePresence>
+        {showNavbar && (
+          <motion.nav
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className={`fixed top-0 w-full z-50 ${blurIntensity} ${
+              darkMode ? "bg-black/80 text-white" : "bg-white/10 text-white"
+            } border-b border-white/10 shadow-md`}
+          >
+            <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
+              <motion.h1
+                className="text-2xl font-bold cursor-pointer tracking-wide"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring" }}
               >
-                Login
-              </Link>
-            )}
-          </div>
-        </motion.nav>
-      )}
-    </AnimatePresence>
+                <Link to="/">Furniqo</Link>
+              </motion.h1>
+
+              <ul className="hidden md:flex gap-8 font-medium">
+                {["Home", "Shop", "About", "Contact"].map((label) => (
+                  <li
+                    key={label}
+                    className={`cursor-pointer transition-colors duration-200 ${
+                      activeSection === label ? "text-[#b5712d] underline underline-offset-4" : "hover:text-[#b5712d]"
+                    }`}
+                    onClick={() => {
+                      if (label === "Home") {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else {
+                        document.getElementById(label.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+                      }
+                    }}
+                  >
+                    {label}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="text-sm px-3 py-1 border border-white/50 rounded-full hover:bg-white/10 transition flex items-center gap-2"
+                >
+                  {darkMode ? <SunIcon /> : <MoonIcon />}
+                </button>
+
+                {isLoggedIn ? (
+                  <motion.img
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                    src="/assets/User.png"
+                    alt="User Profile"
+                    whileHover={{ scale: 1.1 }}
+                    className="w-10 h-10 rounded-full cursor-pointer border-2 border-white"
+                    onClick={handleProfileClick}
+                  />
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Link
+                      to="/login"
+                      className="border border-white px-4 py-2 rounded-full hover:bg-white hover:text-[#0D1B39] transition-all"
+                    >
+                      Login
+                    </Link>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
+      {/* Scroll Progress Bar */}
+      <div
+        className="fixed top-0 left-0 h-1 bg-[#b5712d] z-[60]"
+        style={{ width: `${scrollProgress}%` }}
+      ></div>
+    </>
   );
 };
 
