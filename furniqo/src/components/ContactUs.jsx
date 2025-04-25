@@ -38,7 +38,7 @@ const ContactUs = () => {
 
         {/* Right - Text Section */}
         <motion.div
-          className="max-w-[556px] pl-16"
+          className="absolute left-[700px] max-w-[556px] pl-16"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
