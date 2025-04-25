@@ -12,10 +12,8 @@ const Home = () => {
     <div>
       <Navbar />
       <Hero />
-      <dive>
-        <WhyChooseUs />
-        <ProductGallery />
-      </dive>
+      <WhyChooseUs />
+      <ProductGallery />
       <div id="shop">
         <DesignSection />
       </div>
