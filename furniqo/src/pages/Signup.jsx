@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify"; // ✅ Toast
+import { toast } from "react-toastify"; 
+import { motion } from "framer-motion"; // ✅ import motion
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -42,7 +43,6 @@ const Signup = () => {
       });
 
       toast.success("Account created successfully!");
-
       setTimeout(() => {
         navigate("/login");
       }, 1500);
@@ -55,35 +55,44 @@ const Signup = () => {
   return (
     <div
       className="w-full h-screen bg-cover bg-center relative flex items-center justify-center"
-      style={{
-        backgroundImage: `url('/assets/main-background.png')`,
-      }}
+      style={{ backgroundImage: `url('/assets/main-background.png')` }}
     >
       {/* Logo */}
-      <h2 className="absolute top-[30px] left-[100px] text-white text-[28px] font-bold">
+      <motion.h2
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="absolute top-[30px] left-[100px] text-white text-[28px] font-bold"
+      >
         Furniqo
-      </h2>
+      </motion.h2>
 
       {/* Title */}
-      <h1 className="absolute top-[120px] left-[190px] text-[#B5712D] text-[64px] font-extrabold leading-tight drop-shadow-md">
+      <motion.h1
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="absolute top-[120px] left-[190px] text-[#B5712D] text-[64px] font-extrabold leading-tight drop-shadow-md"
+      >
         Create Your <br /> Account
-      </h1>
+      </motion.h1>
 
-      {/* Signup Form */}
-      <div
+      {/* Form */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
         className="bg-[#FBFBFB]/50 backdrop-blur-md rounded-xl shadow-lg z-10 p-8 absolute top-[300px]"
         style={{
           width: "640px",
-          height: "462px",
+          height: "480px",
         }}
       >
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Name Fields */}
+          {/* Names */}
           <div className="flex space-x-5">
             <div>
-              <label className="block text-[16px] font-medium text-gray-700">
-                First name
-              </label>
+              <label className="block text-[16px] font-medium text-gray-700">First name</label>
               <input
                 type="text"
                 name="firstName"
@@ -96,9 +105,7 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className="block text-[16px] font-medium text-gray-700">
-                Last name
-              </label>
+              <label className="block text-[16px] font-medium text-gray-700">Last name</label>
               <input
                 type="text"
                 name="lastName"
@@ -114,9 +121,7 @@ const Signup = () => {
 
           {/* Email */}
           <div>
-            <label className="block text-[16px] font-medium text-gray-700">
-              Email address
-            </label>
+            <label className="block text-[16px] font-medium text-gray-700">Email address</label>
             <input
               type="email"
               name="email"
@@ -129,12 +134,10 @@ const Signup = () => {
             />
           </div>
 
-          {/* Password Fields */}
+          {/* Passwords */}
           <div className="flex space-x-5">
             <div>
-              <label className="block text-[16px] font-medium text-gray-700">
-                Password
-              </label>
+              <label className="block text-[16px] font-medium text-gray-700">Password</label>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -147,9 +150,7 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className="block text-[16px] font-medium text-gray-700">
-                Confirm your password
-              </label>
+              <label className="block text-[16px] font-medium text-gray-700">Confirm Password</label>
               <input
                 type={showPassword ? "text" : "password"}
                 name="confirmPassword"
@@ -163,6 +164,7 @@ const Signup = () => {
             </div>
           </div>
 
+          {/* Password Info */}
           <p className="text-sm text-gray-700">
             Use 8 or more characters with a mix of letters, numbers & symbols
           </p>
@@ -182,18 +184,17 @@ const Signup = () => {
           {/* Error */}
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          {/* Button */}
+          {/* Signup Button */}
           <div className="flex justify-center">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               type="submit"
-              className="bg-[#0D1B39] text-white py-2 text-[16px] font-medium hover:opacity-90 transition"
-              style={{
-                width: "345px",
-                borderRadius: "32px",
-              }}
+              className="bg-[#0D1B39] text-white py-2 text-[16px] font-medium rounded-full"
+              style={{ width: "345px", borderRadius: "32px" }}
             >
               Create an account
-            </button>
+            </motion.button>
           </div>
         </form>
 
@@ -204,7 +205,7 @@ const Signup = () => {
             Sign in
           </a>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
