@@ -1,6 +1,26 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getTokenCookie } from "../utils/utils"; // ✅ assuming you already use this
 
 const DesignSection = () => {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = getTokenCookie();
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleTryItClick = (e) => {
+    e.preventDefault();
+    if (isLoggedIn) {
+      window.open("http://localhost:8000", "_blank");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <motion.section
       className="h-[760px] bg-white relative overflow-hidden flex items-center"
@@ -18,7 +38,6 @@ const DesignSection = () => {
           viewport={{ once: false }}
           transition={{ duration: 0.7 }}
         >
-          {/* Shadow block */}
           <div
             className="absolute w-full h-full left-[30px] top-[30px] z-0"
             style={{
@@ -61,10 +80,8 @@ const DesignSection = () => {
             placement, customization, and more. Whether you’re experimenting
             from home or consulting in-store, your perfect room starts here.
           </p>
-          <a
-            href="http://localhost:8000"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={handleTryItClick}
             className="inline-block bg-[#0d1b39] text-white text-[18px] font-medium rounded-full hover:bg-[#0c1934] transition"
             style={{
               height: "40px",
@@ -74,7 +91,7 @@ const DesignSection = () => {
             }}
           >
             Try it your self
-          </a>
+          </button>
         </motion.div>
       </div>
     </motion.section>
