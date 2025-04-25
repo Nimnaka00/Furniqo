@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 
 const categories = ["Chairs", "Tables", "Dressers", "Lamps", "Beds", "Sofas"];
 
@@ -29,9 +28,7 @@ const ProductGallery = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const filteredProducts = products.filter(
-    (product) => product.category === activeCategory
-  );
+  const filteredProducts = products.filter((product) => product.category === activeCategory);
 
   const openPopup = (product) => {
     setSelectedProduct(product);
@@ -63,30 +60,27 @@ const ProductGallery = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {filteredProducts.map((product) => {
-            const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-            return (
-              <motion.div
-                key={product.id}
-                ref={ref}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.4, delay: product.id * 0.03 }}
-                className="bg-white border rounded-2xl shadow transition p-4 cursor-pointer"
-                onClick={() => openPopup(product)}
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-48 object-cover mb-4 rounded-xl"
-                />
-                <p className="text-sm text-[#6F6F6F]">{product.category}</p>
-                <h3 className="text-lg font-semibold text-[#1e1e1e] mt-1">{product.name}</h3>
-                <p className="text-[#b5712d] font-bold mt-2">{product.price}</p>
-              </motion.div>
-            );
-          })}
+          {filteredProducts.map((product) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.4, delay: product.id * 0.03 }}
+              className="bg-white border rounded-2xl shadow transition p-4 cursor-pointer"
+              onClick={() => openPopup(product)}
+            >
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-48 object-cover mb-4 rounded-xl"
+              />
+              <p className="text-sm text-[#6F6F6F]">{product.category}</p>
+              <h3 className="text-lg font-semibold text-[#1e1e1e] mt-1">{product.name}</h3>
+              <p className="text-[#b5712d] font-bold mt-2">{product.price}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
 
