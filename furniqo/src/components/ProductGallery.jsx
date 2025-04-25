@@ -98,7 +98,7 @@ const ProductGallery = () => {
                 className="w-full h-48 object-cover mb-4 rounded-xl"
               />
               <p className="text-sm text-[#6F6F6F]">{product.category}</p>
-              <h3 className="text-lg font-semibold text-[#1e1e1e] mt-1">{product.name}</h3>
+              <h3 className="text-[14px] font-semibold text-[#1e1e1e] mt-1">{product.name}</h3>
               <p className="text-[#b5712d] font-bold mt-2">{product.price}</p>
             </motion.div>
           ))}
@@ -132,7 +132,7 @@ const ProductGallery = () => {
                 alt={selectedProduct.name}
                 className="w-full h-60 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-bold text-[#1e1e1e] mb-2">
+              <h3 className="text-xl font-semibold text-[#1e1e1e] mb-2">
                 {selectedProduct.name}
               </h3>
               <p className="text-sm text-[#6F6F6F] mb-2">{selectedProduct.category}</p>
