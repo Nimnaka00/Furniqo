@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setTokenCookie } from "../utils/utils";
-import { toast } from "react-toastify"; // ✅ toastify
+import { toast } from "react-toastify";
+import { motion } from "framer-motion"; // ✅ added motion!
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -30,11 +31,9 @@ const Signin = () => {
 
       const { token, user } = res.data;
 
-      // ✅ Set cookie
       setTokenCookie(token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      // ✅ Show welcome toast
       if (user.email === "admin.furniqo2025@gmail.com") {
         toast.success("Welcome back, Admin!");
         setTimeout(() => navigate("/admin"), 1500);
@@ -54,16 +53,35 @@ const Signin = () => {
         backgroundImage: `url('/assets/main-background.png')`,
       }}
     >
-      <h2 className="absolute top-[30px] left-[100px] text-white text-[28px] font-bold">
+      {/* Logo */}
+      <motion.h2
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="absolute top-[30px] left-[100px] text-white text-[28px] font-bold"
+      >
         Furniqo
-      </h2>
+      </motion.h2>
 
-      <h1 className="absolute top-[120px] left-[190px] text-[#B5712D] text-[64px] font-extrabold leading-tight drop-shadow-md">
+      {/* Title */}
+      <motion.h1
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="absolute top-[120px] left-[190px] text-[#B5712D] text-[64px] font-extrabold leading-tight drop-shadow-md"
+      >
         Sign In To Your <br /> Account
-      </h1>
+      </motion.h1>
 
-      <div className="max-w-md w-full bg-[#FBFBFB]/50 backdrop-blur-md rounded-xl p-8 shadow-lg z-10 absolute top-[300px]">
+      {/* Form */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5 }}
+        className="max-w-md w-full bg-[#FBFBFB]/50 backdrop-blur-md rounded-xl p-8 shadow-lg z-10 absolute top-[300px]"
+      >
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {/* Email */}
           <div>
             <label className="block text-[16px] font-medium text-gray-700">Email address</label>
             <input
@@ -77,6 +95,7 @@ const Signin = () => {
             />
           </div>
 
+          {/* Password */}
           <div>
             <label className="block text-[16px] font-medium text-gray-700">Password</label>
             <input
@@ -90,6 +109,7 @@ const Signin = () => {
             />
           </div>
 
+          {/* Show Password */}
           <div className="flex items-center text-[16px]">
             <input
               type="checkbox"
@@ -101,29 +121,34 @@ const Signin = () => {
             <label htmlFor="showPassword">Show password</label>
           </div>
 
+          {/* Error */}
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
+          {/* Button */}
           <div className="flex justify-center">
-            <button
+            <motion.button
               type="submit"
-              className="bg-[#0D1B39] text-white py-2 text-[16px] font-medium hover:opacity-90 transition"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-[#0D1B39] text-white py-2 text-[16px] font-medium transition rounded-full"
               style={{
                 width: "345px",
                 borderRadius: "32px",
               }}
             >
               Sign in
-            </button>
+            </motion.button>
           </div>
         </form>
 
+        {/* Footer */}
         <p className="mt-4 text-center text-[16px] text-gray-700">
           Don’t have an account?{" "}
           <a href="/signup" className="font-medium text-[#0D1B39] underline">
             Sign up
           </a>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };
