@@ -75,8 +75,11 @@ const Navbar = () => {
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.4 }}
             className={`fixed top-0 w-full z-50 backdrop-blur-sm transition-all duration-300
-              ${darkMode ? "bg-black/0 text-white" : "bg-[#D6D6D6]/90 text-[#0d1b39]"}
-              border-b border-white/10 shadow-md`}
+              ${
+                darkMode
+                  ? "bg-black/00 text-white"
+                  : "bg-[#D6D6D6]/90 text-[#0d1b39]"
+              } border-b border-white/10 shadow-md`}
           >
             <div className="max-w-[1200px] mx-auto flex items-center justify-between px-6 py-4">
               <motion.h1
@@ -122,25 +125,34 @@ const Navbar = () => {
                 ))}
               </ul>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                {/* Theme Switch */}
                 <button
                   onClick={() => setDarkMode(!darkMode)}
-                  className="text-sm px-3 py-1 border border-white/50 rounded-full hover:bg-white/10 transition flex items-center gap-2"
+                  className={`w-9 h-9 flex items-center justify-center border rounded-full transition ${
+                    darkMode
+                      ? "border-white text-white"
+                      : "border-[#1e1e1e] text-[#1e1e1e]"
+                  } hover:bg-white/10`}
                 >
                   {darkMode ? <SunIcon /> : <MoonIcon />}
                 </button>
 
                 {isLoggedIn ? (
-                  <motion.div
+                  <motion.button
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: 0.2 }}
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.05 }}
                     onClick={handleProfileClick}
-                    className="cursor-pointer w-10 h-10 flex items-center justify-center rounded-full bg-[#b5712d] text-white border-2 border-white shadow-md"
+                    className={`w-9 h-9 flex items-center justify-center rounded-full border shadow-md transition ${
+                      darkMode
+                        ? " text-white border-white"
+                        : " text-[#1e1e1e] border-[#0d1b39]"
+                    }`}
                   >
-                    <FiUser className="text-xl" />
-                  </motion.div>
+                    <FiUser className="text-[18px]" />
+                  </motion.button>
                 ) : (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -149,7 +161,11 @@ const Navbar = () => {
                   >
                     <Link
                       to="/login"
-                      className="border border-[#1e1e1e] px-4 py-2 rounded-full hover:bg-white hover:text-[#0D1B39] transition-all"
+                      className={`px-4 py-2 rounded-full transition-all border text-sm ${
+                        darkMode
+                          ? "border-white text-white hover:bg-white hover:text-black"
+                          : "border-[#0d1b39] text-[#0d1b39] hover:bg-[#0d1b39] hover:text-white"
+                      }`}
                     >
                       Login
                     </Link>
