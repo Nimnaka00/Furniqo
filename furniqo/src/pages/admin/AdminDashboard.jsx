@@ -1,6 +1,9 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { clearTokenCookie } from "../../utils/utils";
 import { toast } from "react-toastify";
+import { AiFillHome } from "react-icons/ai";
+import { FiUsers } from "react-icons/fi";
+import { LuPaintbrush } from "react-icons/lu";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -9,9 +12,9 @@ const AdminDashboard = () => {
   const isActive = (path) => location.pathname === path;
 
   const navItems = [
-    { label: "Home", path: "/admin", icon: "home.png" },
-    { label: "User Management", path: "/admin/users", icon: "usermanagement.png" },
-    { label: "Design", path: "/admin/designs", icon: "design.png" },
+    { label: "Home", path: "/admin", icon: <AiFillHome size={24} /> },
+    { label: "User Management", path: "/admin/users", icon: <FiUsers size={22} /> },
+    { label: "Design", path: "/admin/designs", icon: <LuPaintbrush size={22} /> },
   ];
 
   const handleLogout = () => {
@@ -21,9 +24,8 @@ const AdminDashboard = () => {
     clearTokenCookie();
     localStorage.removeItem("user");
 
-    toast.success("✅ You have been logged out!");
+    toast.success("You have been logged out!");
 
-    // Slight delay before navigating so toast is visible
     setTimeout(() => {
       navigate("/login");
     }, 1500);
@@ -54,11 +56,7 @@ const AdminDashboard = () => {
                       : "text-[#0D1B39] border-[#8d8d8d] hover:bg-[#B5712D] hover:text-white"
                   }`}
               >
-                <img
-                  src={`/assets/icon/${item.icon}`}
-                  alt={item.label}
-                  className="w-6 h-6"
-                />
+                <span className="w-6 h-6">{item.icon}</span>
                 {item.label}
               </button>
             ))}
