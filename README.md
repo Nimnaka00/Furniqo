@@ -7,12 +7,6 @@ Furniqo is a modern platform that enables users to **design, customize, and visu
 
 ---
 
-## 🚀 Live Demo
-
-> **🔗 Project Hosting Link:** [Visit Furniqo Live](https://your-hosting-link.com)
-
----
-
 ## 🎥 Demo Video
 
 > See how Furniqo works!  
