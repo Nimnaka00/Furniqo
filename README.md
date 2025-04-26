@@ -117,14 +117,6 @@ python -m http.server
 
 ---
 
-## 📬 Contact
-
-**Created with ❤️ by [Your Name]**  
-📧 Email: [your.email@example.com]  
-🌐 Website: [your-portfolio-link.com]
-
----
-
 > _"Design your dream space with ease. Welcome to the future of interior designing with Furniqo!"_
 
 ---
