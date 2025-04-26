@@ -70,7 +70,7 @@ npm install
 
 # Install 3D (optional)
 cd ../furniqo-3D
-npm install (only if needed)
+npm install
 ```
 
 ### 3. Run the Project
