@@ -71,8 +71,10 @@ cd furniqo
 
 ### 2. Install Dependencies
 ```bash
-# Install frontend
+# Install tools
 npm install concurrently --save-dev
+
+# Install frontend
 cd furniqo
 npm install
 
@@ -80,7 +82,7 @@ npm install
 cd ../backend
 npm install
 
-# Install 3D (optional)
+# Install 3D Engine (optional)
 cd ../furniqo-3D
 npm install --legacy-peer-deps
 grunt
