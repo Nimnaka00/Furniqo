@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix furniqo\" \"npm run dev --prefix backend\" \"python -m http.server --directory furniqo-3D/furniqo-3d\""
   }
 }
