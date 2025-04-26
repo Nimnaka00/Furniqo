@@ -1,4 +1,4 @@
-# Furniqo - 3D Interior Design Platform
+# 🛋️ Furniqo – A User-Centered Furniture Visualization and Room Customization System
 
 Welcome to **Furniqo** — a project developed for the **PUSL3122 Human Computer Interaction (HCI)** module at the University of Plymouth.  
 Furniqo is a next-generation interior design platform that enables users to **design, customize, and visualize rooms in both 2D and immersive 3D environments** with ease and flexibility.
@@ -24,12 +24,11 @@ Furniqo is a next-generation interior design platform that enables users to **de
 
 ## 📂 Project Structure
 
-
 ```
 Furniqo/
 ├── furniqo/         # Frontend (React.js + TailwindCSS + Framer Motion)
 ├── backend/         # Backend (Node.js + Express + MongoDB)
-├── furniqo-3D/      # 3D Interior Design Engine (Three.js + Blueprint3D)
+└── furniqo-3D/      # 3D Interior Design Engine (Three.js + Blueprint3D)
 ```
 
 ---
@@ -61,7 +60,7 @@ Furniqo/
 
 ---
 
-## 🛠 How to Run Locally
+## 🛠️ How to Run Locally
 
 ### 1. Clone the Repository
 ```bash
@@ -126,9 +125,9 @@ python -m http.server
 - User and Admin Authentication 🔐
 - Beautiful Animated UI ✨
 - 2D & 3D Room Planning 📐
-- User Profile Management 🧑‍💼
+- User Profile Management 🡤
 - Admin Dashboard (Manage Users & Designs) ⚙️
-- Real-time Design Support 🛋️
+- Real-time Design Support 🏣️
 
 ---
 
@@ -136,4 +135,5 @@ python -m http.server
 
 ---
 
-#️⃣ **#ReactJS #NodeJS #MongoDB #ThreeJS #InteriorDesign #3DModeling #Furniqo**
+#⃣ **#ReactJS #NodeJS #MongoDB #ThreeJS #InteriorDesign #3DModeling #Furniqo**
+
