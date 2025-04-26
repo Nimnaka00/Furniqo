@@ -1,0 +1,40 @@
+# .github/workflows/deploy.yml
+
+name: Deploy Furniqo Frontend
+
+on:
+  push:
+    branches:
+      - main  # Deploy whenever you push to the main branch
+
+permissions:
+  contents: write  # Allow GitHub Actions to push to gh-pages branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          cd furniqo
+          npm install
+
+      - name: Build Furniqo Frontend
+        run: |
+          cd furniqo
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: furniqo/dist
