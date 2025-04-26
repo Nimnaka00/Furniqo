@@ -61,6 +61,7 @@ cd furniqo
 ### 2. Install Dependencies
 ```bash
 # Install frontend
+npm install concurrently --save-dev
 cd furniqo
 npm install
 
@@ -70,7 +71,8 @@ npm install
 
 # Install 3D (optional)
 cd ../furniqo-3D
-npm install
+npm install --legacy-peer-deps
+grunt
 ```
 
 ### 3. Run the Project
@@ -78,7 +80,7 @@ npm install
 Use a single command via `concurrently`:
 
 ```bash
-npm run dev:all
+npm run dev
 ```
 
 Or manually run:
