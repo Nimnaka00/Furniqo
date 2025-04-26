@@ -1,7 +1,7 @@
 # 🛋️ Furniqo – A User-Centered Furniture Visualization and Room Customization System
 
 Welcome to **Furniqo** — a project developed for the **PUSL3122 Human Computer Interaction (HCI)** module at the University of Plymouth.  
-Furniqo is a next-generation interior design platform that enables users to **design, customize, and visualize rooms in both 2D and immersive 3D environments** with ease and flexibility.
+Furniqo is a modern platform that enables users to **design, customize, and visualize room interiors** both in 2D and immersive 3D environments, offering a smooth, realistic, and interactive experience.
 
 ![Furniqo Banner](./assets/banner.png)
 
@@ -17,8 +17,8 @@ Furniqo is a next-generation interior design platform that enables users to **de
 
 > See how Furniqo works!  
 >  
-> ![Demo Video](https://your-demo-video-link.com/demo-preview.gif)  
-> *(Note: Add a `.gif` version of the video preview here if available)*
+> ![Demo Video Preview](https://your-demo-video-link.com/demo-preview.gif)  
+> *(Preview automatically plays here — no link redirection needed!)*
 
 ---
 
@@ -28,7 +28,7 @@ Furniqo is a next-generation interior design platform that enables users to **de
 Furniqo/
 ├── furniqo/         # Frontend (React.js + TailwindCSS + Framer Motion)
 ├── backend/         # Backend (Node.js + Express + MongoDB)
-└── furniqo-3D/      # 3D Interior Design Engine (Three.js + Blueprint3D)
+├── furniqo-3D/      # 3D Interior Design Engine (Three.js + Blueprint3D)
 ```
 
 ---
@@ -38,46 +38,46 @@ Furniqo/
 ### Frontend
 - **React.js** — UI Framework
 - **Tailwind CSS** — Styling
-- **Framer Motion** — Animations
-- **React Toastify** — Notifications
-- **Vite** — Lightning-fast build tool
+- **Framer Motion** — Page Animations
+- **React Toastify** — Notification Alerts
+- **Vite** — Lightning-fast Build Tool
 
 ### Backend
-- **Node.js** — Server-side JavaScript
-- **Express.js** — API Framework
-- **MongoDB** — Database
-- **JWT Authentication** — Secure user login
+- **Node.js** — Server Environment
+- **Express.js** — API Server
+- **MongoDB** — NoSQL Database
+- **JWT Authentication** — Secure User Authentication
 
 ### 3D Engine (Furniqo 3D)
-- **TypeScript** — Core Logic (81%)
+- **TypeScript** — Core 3D Logic
 - **Three.js** — 3D Rendering Engine
-- **Blueprint3D** — Custom 3D Room Designer
-- **Python SimpleHTTPServer** — Local server for testing
+- **Blueprint3D** — Interior Design Tool
+- **Python SimpleHTTPServer** — Lightweight Local Server for Testing
 
 ### Development Tools
-- **npm** — Package Manager
-- **Grunt** — Build automation (furniqo-3D)
+- **npm** — Dependency Management
+- **Grunt** — Build Automation (for Furniqo 3D)
 
 ---
 
-## 🛠️ How to Run Locally
+## 🛠 How to Run Locally
 
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/Nimnaka00/Furniqo.git
-cd furniqo
+cd Furniqo
 ```
 
 ### 2. Install Dependencies
 ```bash
-# Install tools
+# Install tool
 npm install concurrently --save-dev
 
-# Install frontend
+# Install Frontend
 cd furniqo
 npm install
 
-# Install backend
+# Install Backend
 cd ../backend
 npm install
 
@@ -89,13 +89,14 @@ grunt
 
 ### 3. Run the Project
 
-Use a single command via `concurrently`:
+Use this **one command** (with `concurrently`):
 
 ```bash
 npm run dev
 ```
 
-Or manually run:
+Or manually:
+
 ```bash
 # Frontend
 cd furniqo
@@ -115,25 +116,40 @@ python -m http.server
 
 ## 📸 Screenshots
 
-| Home Page | 3D Designer |
-|:---------:|:-----------:|
-| ![Home](./assets/screenshot-home.png) | ![3D](./assets/screenshot-3d.png) |
+| Home Page | 3D Room Planner |
+|:---------:|:---------------:|
+| ![Home Page](./assets/screenshot-home.png) | ![3D Planner](./assets/screenshot-3d.png) |
 
 ---
 
-## ✨ Features
-- User and Admin Authentication 🔐
-- Beautiful Animated UI ✨
-- 2D & 3D Room Planning 📐
-- User Profile Management 🡤
-- Admin Dashboard (Manage Users & Designs) ⚙️
-- Real-time Design Support 🏣️
+## ✨ Key Features
+- 🔐 **Authentication System** — Login and Signup for Users and Admins
+- 🎨 **2D & 3D Room Planning** — Create, edit, and visualize room layouts
+- 🖥️ **Interactive Dashboard** — Admins can manage users and designs
+- 📱 **Responsive Design** — Seamless mobile and desktop experiences
+- 🛋️ **Custom Furniture Placement** — Drag, rotate, and arrange 3D models
+- 🔔 **Animated Alerts** — Smooth notifications with Framer Motion and Toastify
+- 🌐 **Fast Hosting Ready** — Optimized builds for easy deployment
 
 ---
 
-> _"Design your dream space with ease. Welcome to the future of interior designing with Furniqo!"_
+## 👥 Group Information
+
+**Group 111**  
+
+| Member Name                  | Student ID    |
+|-------------------------------|---------------|
+| Beragama Kalpani              | 10899573      |
+| Subhasinghage Nimnaka         | 10899636      |
+| Edirisinghe Subasinghe        | 10899710      |
+| Senadhipathirage Vimantha     | 10898689      |
+| Sanuki Wedage                 | 10898696      |
 
 ---
 
-#⃣ **#ReactJS #NodeJS #MongoDB #ThreeJS #InteriorDesign #3DModeling #Furniqo**
+> _"Designed and Developed for the PUSL3122 Human Computer Interaction (HCI) Module at the University of Plymouth."_  
+> _"Transform your interior ideas into reality with Furniqo!"_
 
+---
+
+#️⃣ **#ReactJS #NodeJS #MongoDB #ThreeJS #InteriorDesign #3DModeling #Furniqo**
