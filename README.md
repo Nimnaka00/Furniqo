@@ -113,6 +113,8 @@ python -m http.server
 | Home Page | 3D Room Planner |
 |:---------:|:---------------:|
 | ![Home Page](./assets/screenshot-home.png) | ![3D Planner](./assets/screenshot-3d.png) |
+                                            | ![3D Planner](./assets/screenshot-3d01.png) |
+                                            | ![3D Planner](./assets/screenshot-3d02.png) |
 
 ---
 
