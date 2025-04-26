@@ -4,5 +4,9 @@
   },
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix furniqo\" \"npm run dev --prefix backend\" \"python -m http.server --directory furniqo-3D/furniqo-3d\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nimnaka00/Furniqo.git"
   }
 }
