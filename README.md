@@ -1,18 +1,29 @@
 # Furniqo - 3D Interior Design Platform
 
-Welcome to **Furniqo** — A next-generation interior design platform that lets users design, customize, and visualize rooms in 2D and immersive 3D environments. 
+Welcome to **Furniqo** — a project developed for the **PUSL3122 Human Computer Interaction (HCI)** module at the University of Moratuwa.  
+Furniqo is a next-generation interior design platform that enables users to **design, customize, and visualize rooms in both 2D and immersive 3D environments** with ease and flexibility.
 
-![Furniqo Banner](./assets/banner.png) <!-- Optional banner -->
+![Furniqo Banner](./assets/banner.png)
+
+---
 
 ## 🚀 Live Demo
 
 > **🔗 Project Hosting Link:** [Visit Furniqo Live](https://your-hosting-link.com)
 
-> **🎥 Demo Video:** [Watch the Demo](https://your-demo-video-link.com)
+---
+
+## 🎥 Demo Video
+
+> See how Furniqo works!  
+>  
+> ![Demo Video](https://your-demo-video-link.com/demo-preview.gif)  
+> *(Note: Add a `.gif` version of the video preview here if available)*
 
 ---
 
 ## 📂 Project Structure
+
 
 ```
 Furniqo/
