@@ -54,7 +54,7 @@ Furniqo/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/furniqo.git
+git clone https://github.com/Nimnaka00/Furniqo.git
 cd furniqo
 ```
 
