@@ -15,7 +15,7 @@ const DesignSection = () => {
   const handleTryItClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      window.open("http://localhost:8000", "_blank");
+      window.location.href = "http://localhost:8000"; // ✅ Open in same tab
     } else {
       navigate("/login");
     }
