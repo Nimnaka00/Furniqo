@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const AdminDesign = () => {
   const handleRedirect = () => {
-    window.open("http://localhost:8000", "_blank");
+    window.location.href = "http://localhost:8000";
   };
 
   return (
