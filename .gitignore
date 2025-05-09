@@ -1,0 +1,13 @@
+# Ignore node_modules folders
+backend/node_modules/
+furniqo/node_modules/
+node_modules/
+
+# Ignore environment variables
+backend/.env
+
+# Optional: Ignore logs, temp files, and IDE config
+*.log
+.DS_Store
+.vscode/
+.env.local
