@@ -11,8 +11,7 @@ Furniqo is a modern platform that enables users to **design, customize, and visu
 
 > See how Furniqo works!  
 >  
-> ![Demo Video Preview](./assets/demo.mp4)  
-> *(Preview automatically plays here — no link redirection needed!)*
+> *DEMO :*
 
 ---
 
